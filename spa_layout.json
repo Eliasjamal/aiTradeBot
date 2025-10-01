@@ -1,0 +1,64 @@
+{
+  "type": "page",
+  "title": "LNG SPA – Commercial Terms",
+  "sections": [
+    {
+      "id": "basic",
+      "type": "card",
+      "title": "Basic Details",
+      "components": [
+        {"id":"buyer","type":"textbox","label":"Buyer","binding":"spa.buyer","validators":[{"type":"required"}]},
+        {"id":"seller","type":"textbox","label":"Seller","binding":"spa.seller","validators":[{"type":"required"}]},
+        {"id":"incoterm","type":"select","label":"Incoterm","binding":"spa.incoterm",
+         "data":{"source":"static","options":[
+           {"label":"DES","value":"DES"},{"label":"FOB","value":"FOB"},{"label":"DAP","value":"DAP"}]},
+         "validators":[{"type":"required"}]}
+      ]
+    },
+    {
+      "id": "cargo",
+      "type": "card",
+      "title": "Cargo & Schedule",
+      "components": [
+        {"id":"qtyMt","type":"number","label":"Quantity (MT)","binding":"spa.qtyMt",
+         "validators":[{"type":"required"},{"type":"min","value":10000},{"type":"max","value":200000}]},
+        {"id":"laycanStart","type":"date","label":"Laycan Start (UTC)","binding":"spa.laycan.start","validators":[{"type":"required"}]},
+        {"id":"laycanEnd","type":"date","label":"Laycan End (UTC)","binding":"spa.laycan.end","validators":[{"type":"required"}]}
+      ]
+    },
+    {
+      "id": "pricing",
+      "type": "card",
+      "title": "Pricing",
+      "components": [
+        {"id":"priceType","type":"select","label":"Price Type","binding":"spa.price.type",
+         "data":{"source":"static","options":[
+           {"label":"Fixed","value":"FIXED"},{"label":"Formula / Index","value":"FORMULA"}]},
+         "validators":[{"type":"required"}]},
+        {"id":"fixedPrice","type":"number","label":"Fixed Price (USD/MMBtu)","binding":"spa.price.fixed",
+         "when":{"expr":"value('spa.price.type') == 'FIXED'"},
+         "validators":[{"type":"min","value":1},{"type":"max","value":50}]},
+        {"id":"index","type":"select","label":"Index","binding":"spa.price.index",
+         "when":{"expr":"value('spa.price.type') == 'FORMULA'"},
+         "data":{"source":"static","options":[
+           {"label":"JKM","value":"JKM"},{"label":"TTF","value":"TTF"},{"label":"NBP","value":"NBP"}]}},
+        {"id":"premium","type":"number","label":"Premium (+/- USD/MMBtu)","binding":"spa.price.premium",
+         "when":{"expr":"value('spa.price.type') == 'FORMULA'"}}
+      ]
+    }
+  ],
+  "actions": [
+    {"id":"saveDraft","type":"button","style":"secondary","label":"Save Draft",
+     "invoke":{"endpoint":"https://httpbin.org/post","method":"POST","bodyBinding":"$form"}},
+    {"id":"submit","type":"button","style":"primary","label":"Submit for Review",
+     "invoke":{"endpoint":"https://httpbin.org/post","method":"POST","bodyBinding":"$form"}}
+  ],
+  "bindings": {
+    "spa": {
+      "buyer": "", "seller": "", "incoterm": "DES",
+      "qtyMt": 170000,
+      "laycan": {"start": "2025-10-05", "end": "2025-10-12"},
+      "price": {"type": "FORMULA", "index": "JKM", "premium": 0.2}
+    }
+  }
+}
