@@ -1,0 +1,28 @@
+LNG                          ← your Xcode project
+├─ LNG                       ← app target (module)
+│  ├─ LNGApp.swift           ← (already there) @main app entry
+│  ├─ ContentView.swift      ← (already there) starter view; now loads DynamicPageView
+│  ├─ Assets.xcassets        ← (already there)
+│  ├─ Preview Content        ← (already there)
+│  │  └─ Preview Assets.xcassets
+│  ├─ DynamicUX              ← (NEW group)
+│  │  ├─ Models              ← (NEW group)
+│  │  │  └─ Models.swift     ← layout/page/section/component/action models + AnyCodable
+│  │  ├─ State               ← (NEW group)
+│  │  │  ├─ FormState.swift  ← flat key–value form store & bindings
+│  │  │  └─ Conditions.swift ← tiny `when` expression evaluator
+│  │  └─ Views               ← (NEW group)
+│  │     └─ DynamicViews.swift  ← renderer (page/section/component + action button)
+│  └─ spa_layout.json        ← (NEW) bundled sample layout JSON (add to app target)
+│
+├─ LNGTests                  ← (already there)
+│  └─ …                      ← your default test stubs
+├─ LNGUITests                ← (already there)
+│  ├─ LNGUITestsLaunchTests.swift
+│  └─ …
+└─ Products (Derived by Xcode)
+
+
+
+
+Here’s a clean project tree that includes what you already have and adds the Dynamic-UX bits we created. Use it as your reference for how your Xcode Project Navigator should look.
